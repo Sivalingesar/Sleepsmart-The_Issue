@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIGITAL SLEEP OPTIMISER</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0f172a; 
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --electric-border-color: #02A2F8;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            scroll-behavior: smooth; /* Smooth scrolling for the arrow */
+        }
+
+        /* --- HERO & 3D TEXT SECTION --- */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Takes up full screen */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: visible;
+        }
+
+        #text-container {
+            display: block;
+            position: relative;
+            width: 90vw; 
+            height: 22vw;
+        }
+
+        .hero-section h1, .copy {
+            font-family: "Lilita One", cursive;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+            font-size: 16vw; 
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            line-height: 1;
+            width: 100%;
+            text-align: center;
+            margin: 0;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .hero-section h1 { color: #e7e7e7; z-index: 50; }
+        .copy-1 { color: #02A2F8; z-index: 40; } 
+        .copy-2 { color: #00b1f2af; z-index: 30; } 
+        .copy-3 { color: #4f8ad1; z-index: 20; } 
+        .copy-4 { color: #166894c5; z-index: 10; } 
+
+        /* --- ANIMATED ARROW STYLES --- */
+        .scroll-arrow {
+            position: absolute;
+            bottom: 40px;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            z-index: 60;
+        }
+
+        .scroll-arrow:hover {
+            opacity: 1;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-15px);}
+            60% {transform: translateY(-7px);}
+        }
+
+        /* --- CONTENT SECTION --- */
+        .content-container {
+            width: 100%;
+            padding: 50px 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <section class="hero-section">
+        <header id="text-container">
+            <h1>The Issue</h1>
+            <span aria-hidden="true" class="copy copy-1">The Issue</span>
+            <span aria-hidden="true" class="copy copy-2">The Issue</span>
+            <span aria-hidden="true" class="copy copy-3">The Issue</span>
+            <span aria-hidden="true" class="copy copy-4">The Issue</span>
+        </header>
+
+        <div class="scroll-arrow" onclick="scrollToContent()">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+            </svg>
+        </div>
+    </section>
+
+    <div class="content-container" id="main-content">
+        <object type="text/html" data="hovertextboxissue1.html" width="100%" height="400"></object>
+        
+        <br><br>
+        
+        <div style="display: flex; align-items: center; justify-content: center; width: 100%; gap: 10px;">
+            <object type="text/html" data="hovertextboxissue2.html" width="45%" height="600"></object>
+            <object type="text/html" data="piechartsleepduration.html" width="40%" height="900"></object>
+        </div>
+
+        <br><br>
+        
+        <object type="text/html" data="hovertextboxissue3.html" width="100%" height="400"></object>
+    </div>
+     
+<div style="display: flex; flex-direction: row; align-items: flex-start; justify-content: center; width: 100%; gap: 20px; margin: 40px 0;">
+    
+    <object type="text/html" data="piechartiredness.html" width="45%" height="900" 
+        style="display: block; border: none; overflow: hidden;"></object>
+
+    <object type="text/html" data="hovertextboxissue4.html" width="40%" height="900" 
+        style="display: block; border: none; overflow: hidden;"></object>
+</div>
+
+<object type="text/html" data="hovertextboxissue5.html" width="100%" height="400"></object>
+
+<object type="text/html" data="hovertextboxissue6.html" width="100%" height="300"></object>
+
+<object type="text/html" data="quickfirefactscarousel.html" width="100%" height="700"></object>
+
+<object type="text/html" data="oursolutionbutton.html" width="100%" height="100"></object>
+
+    <script>
+        /* Logic for Scroll Arrow */
+        function scrollToContent() {
+            document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        /* 3D TEXT LOGIC */
+        const mouse = { x: 0, y: 0 };
+        const center = { x: 0, y: 0 };
+        const distance = { x: 0, y: 0 };
+        const lerped = { x: 0, y: 0 };
+        let isSimulating = true;
+
+        const perspective = 500;
+        const translateZ = -16;
+        const rotateMult = 2.5; 
+        const skewMult = 2.5;
+
+        const container = document.getElementById("text-container");
+        const copies = document.querySelectorAll(".copy");
+
+        function getCenter() {
+            const rect = container.getBoundingClientRect();
+            center.x = rect.left + rect.width / 2;
+            center.y = rect.top + rect.height / 2;
+        }
+
+        function onMouseMove(e) {
+            isSimulating = false;
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            distance.x = center.x - mouse.x;
+            distance.y = center.y - mouse.y;
+        }
+
+        function autoFloat(t) {
+            distance.x = Math.sin(t / 600) * (window.innerWidth * 0.15);
+            distance.y = Math.cos(t / 600) * (window.innerHeight * 0.05);
+        }
+
+        function animate(t) {
+            if (isSimulating) autoFloat(t);
+
+            lerped.x += (distance.x - lerped.x) * 0.15;
+            lerped.y += (distance.y - lerped.y) * 0.15;
+
+            copies.forEach((copy, i) => {
+                const index = i + 1;
+                const y = index * lerped.y * 0.035;
+                const z = index * translateZ;
+                const r = index * rotateMult * (lerped.x * 0.001);
+                const s = index * skewMult * (lerped.x * 0.001);
+
+                copy.style.transform = `translate(-50%, -50%) perspective(${perspective}px) translate3d(0px, ${y}px, ${z}px) rotate(${r}deg) skew(${s}deg)`;
+            });
+
+            // Target the h1 inside the hero-section specifically
+            const mainH1 = document.querySelector('.hero-section h1');
+            if(mainH1) mainH1.style.transform = `translate(-50%, -50%)`;
+            
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener("resize", getCenter);
+        document.addEventListener("mousemove", onMouseMove);
+        
+        getCenter();
+        requestAnimationFrame(animate);
+    </script>
+</body>
+</html>

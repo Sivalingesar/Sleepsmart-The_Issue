@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <style>
+    :root {
+      --electric-border-color: #02A2F8;
+      --electric-light-color: oklch(from var(--electric-border-color) l c h);
+      --gradient-color: oklch(from var(--electric-border-color) 0.3 calc(c / 2) h / 0.4);
+      --color-neutral-900: oklch(0.185 0 0);
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      /* Background set to transparent for embedding */
+      background-color: transparent; 
+      color: white;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    .svg-container { position: absolute; width: 0; height: 0; pointer-events: none; }
+
+    /* --- Carousel Logic --- */
+    .carousel {
+      margin: 0 auto;
+      padding: 100px 0; 
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      background: transparent;
+    }
+
+    .group {
+      display: flex;
+      gap: 60px;
+      padding-right: 60px;
+      animation: scrolling 20s linear infinite;
+    }
+
+    @keyframes scrolling {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .carousel:hover .group { animation-play-state: paused; }
+
+    /* --- Electric Card Design --- */
+    .card-wrapper {
+      position: relative;
+      flex: 0 0 350px;
+      height: 500px;
+    }
+
+    .card-container-bg {
+      position: absolute;
+      inset: 0;
+      padding: 2px;
+      border-radius: 24px;
+      /* Solid dark background for the card body itself so text is readable */
+      background: linear-gradient(-30deg, var(--gradient-color), transparent, var(--gradient-color)),
+                  linear-gradient(to bottom, var(--color-neutral-900), var(--color-neutral-900));
+      z-index: 1;
+    }
+
+    .border-outer {
+      border: 2px solid #02A2F8;
+      border-radius: 24px;
+      padding-right: 4px;
+      padding-bottom: 4px;
+      height: 100%;
+      box-sizing: border-box;
+    }
+
+    .main-card-spark {
+      width: 100%;
+      height: 100%;
+      border-radius: 24px;
+      border: 2px solid var(--electric-border-color);
+      margin-top: -4px;
+      margin-left: -4px;
+      filter: url(#turbulent-displace);
+    }
+
+    .glow-layer-2 {
+      position: absolute;
+      inset: 0;
+      border: 2px solid var(--electric-light-color);
+      border-radius: 24px;
+      filter: blur(4px);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .background-glow {
+      position: absolute;
+      inset: -40px; 
+      border-radius: 40px;
+      filter: blur(50px);
+      opacity: 0.5; /* Boosted opacity for transparent backgrounds */
+      z-index: 0;
+      background: radial-gradient(circle at center, var(--electric-border-color), transparent 70%);
+      pointer-events: none;
+    }
+
+    /* --- Content Layer --- */
+    .content-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      pointer-events: none;
+      text-align: center;
+    }
+
+    .content-top {
+      padding: 60px 40px 0 40px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scrollbar-glass {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 14px;
+      width: fit-content;
+      padding: 6px 16px;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 24px;
+    }
+
+    .fact-text {
+      font-size: 26px;
+      font-weight: 600;
+      line-height: 1.3;
+      margin: 0 0 24px 0;
+    }
+
+    .divider {
+      border: none;
+      height: 1px;
+      background-color: white;
+      opacity: 0.15;
+      margin: 0 40px;
+    }
+
+    .content-bottom {
+      padding: 24px 40px 60px;
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+
+  <svg class="svg-container">
+    <defs>
+      <filter id="turbulent-displace" color-interpolation-filters="sRGB" x="-25%" y="-25%" width="150%" height="150%">
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise1" seed="1" />
+        <feOffset in="noise1" dx="0" dy="0" result="offsetNoise1">
+          <animate attributeName="dy" values="700; 0" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise2" seed="1" />
+        <feOffset in="noise2" dx="0" dy="0" result="offsetNoise2">
+          <animate attributeName="dy" values="0; -700" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+        <feComposite in="offsetNoise1" in2="offsetNoise2" result="part1" />
+        <feBlend in="part1" in2="part1" mode="color-dodge" result="combinedNoise" />
+        <feDisplacementMap in="SourceGraphic" in2="combinedNoise" scale="30" xChannelSelector="R" yChannelSelector="B" />
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="carousel">
+    <div class="group">
+      <div class="card-wrapper">
+        <div class="background-glow"></div>
+        <div class="card-container-bg"><div class="border-outer"><div class="main-card-spark"></div></div></div>
+        <div class="glow-layer-2"></div>
+        <div class="content-container">
+          <div class="content-top">
+            <div class="scrollbar-glass">Safety</div>
+            <p class="fact-text">Teens are 2x as likely to face accidents due to micro-sleeps.</p>
+          </div>
+          <hr class="divider" />
+          <div class="content-bottom">Sleep deprivation mimics the effects of alcohol on the brain.</div>
+        </div>
+      </div>
+      <div class="card-wrapper">
+        <div class="background-glow"></div>
+        <div class="card-container-bg"><div class="border-outer"><div class="main-card-spark"></div></div></div>
+        <div class="glow-layer-2"></div>
+        <div class="content-container">
+          <div class="content-top">
+            <div class="scrollbar-glass">Memory</div>
+            <p class="fact-text">The brain needs 8 hours to "upload" new information.</p>
+          </div>
+          <hr class="divider" />
+          <div class="content-bottom">Deep sleep is where academic potential is locked in.</div>
+        </div>
+      </div>
+      <div class="card-wrapper">
+        <div class="background-glow"></div>
+        <div class="card-container-bg"><div class="border-outer"><div class="main-card-spark"></div></div></div>
+        <div class="glow-layer-2"></div>
+        <div class="content-container">
+          <div class="content-top">
+            <div class="scrollbar-glass">Deficit</div>
+            <p class="fact-text">96% of students operate in a success-blocking deficit.</p>
+          </div>
+          <hr class="divider" />
+          <div class="content-bottom">Most students don't realize they are underperforming.</div>
+        </div>
+      </div>
+    </div>
+
+    <div aria-hidden="true" class="group">
+      <div class="card-wrapper">
+        <div class="background-glow"></div>
+        <div class="card-container-bg"><div class="border-outer"><div class="main-card-spark"></div></div></div>
+        <div class="glow-layer-2"></div>
+        <div class="content-container">
+          <div class="content-top">
+            <div class="scrollbar-glass">Safety</div>
+            <p class="fact-text">Teens are 2x as likely to face accidents due to micro-sleeps.</p>
+          </div>
+          <hr class="divider" />
+          <div class="content-bottom">Sleep deprivation mimics the effects of alcohol on the brain.</div>
+        </div>
+      </div>
+      <div class="card-wrapper">
+        <div class="background-glow"></div>
+        <div class="card-container-bg"><div class="border-outer"><div class="main-card-spark"></div></div></div>
+        <div class="glow-layer-2"></div>
+        <div class="content-container">
+          <div class="content-top">
+            <div class="scrollbar-glass">Memory</div>
+            <p class="fact-text">The brain needs 8 hours to "upload" new information.</p>
+          </div>
+          <hr class="divider" />
+          <div class="content-bottom">Deep sleep is where academic potential is locked in.</div>
+        </div>
+      </div>
+      <div class="card-wrapper">
+        <div class="background-glow"></div>
+        <div class="card-container-bg"><div class="border-outer"><div class="main-card-spark"></div></div></div>
+        <div class="glow-layer-2"></div>
+        <div class="content-container">
+          <div class="content-top">
+            <div class="scrollbar-glass">Deficit</div>
+            <p class="fact-text">96% of students operate in a success-blocking deficit.</p>
+          </div>
+          <hr class="divider" />
+          <div class="content-bottom">Most students don't realize they are underperforming.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

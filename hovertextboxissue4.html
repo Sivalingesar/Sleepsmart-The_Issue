@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sleepsmart Centered Banner</title>
+  <style>
+    :root {
+      --electric-border-color: #02A2F8;
+      --electric-light-color: oklch(from var(--electric-border-color) l c h);
+      --gradient-color: oklch(from var(--electric-border-color) 0.3 calc(c / 2) h / 0.4);
+      --color-neutral-900: oklch(0.185 0 0);
+    }
+
+    /* The Fix: body must be exactly 100vh with flex centering */
+    body {
+      font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
+      background-color: transparent;
+      color: white;
+      margin: 0;
+      display: flex;
+      justify-content: center; /* Centers horizontally */
+      align-items: center;     /* Centers vertically */
+      height: 100vh;           /* Exactly the height of the screen */
+      overflow: hidden;
+    }
+
+    .svg-container { position: absolute; width: 0; height: 0; }
+
+    .scene {
+      position: relative;
+      /* Removed heavy padding that was causing offsets */
+    }
+
+    .banner-container {
+      position: relative;
+      width: 440px; 
+      min-height: 40px;
+      border-radius: 24px;
+      background: linear-gradient(-30deg, var(--gradient-color), transparent, var(--gradient-color)),
+                  linear-gradient(to bottom, var(--color-neutral-900), var(--color-neutral-900));
+      cursor: pointer;
+      transition: background 0.4s ease, transform 0.3s ease;
+      z-index: 2;
+    }
+
+    .electric-border-layer {
+      position: absolute;
+      inset: 0;
+      border: 2px solid var(--electric-border-color);
+      border-radius: 24px;
+      pointer-events: none;
+      filter: url(#turbulent-displace); 
+      z-index: 5;
+    }
+
+    .glow-layer {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      pointer-events: none;
+    }
+    .glow-1 { border: 2px solid var(--electric-border-color); filter: blur(2px); z-index: 2; opacity: 0.8; }
+    .glow-2 { border: 2px solid var(--electric-light-color); filter: blur(6px); z-index: 3; opacity: 0.5; }
+
+    .background-glow {
+      position: absolute;
+      inset: -10px;
+      border-radius: 30px;
+      filter: blur(32px);
+      opacity: 0.2;
+      z-index: -1;
+      background: radial-gradient(circle, var(--electric-light-color), transparent 70%);
+      transition: opacity 0.4s ease;
+    }
+
+    .banner-container:hover {
+      background: var(--electric-border-color);
+      transform: scale(1.02);
+    }
+
+    .banner-container:hover .background-glow { opacity: 0.6; }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 10;
+      padding: 40px 50px;
+      text-align: left; 
+    }
+
+    .impact-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.95);
+    }
+
+    .impact-list li {
+      position: relative;
+      padding-left: 25px;
+      margin-bottom: 12px;
+    }
+
+    .impact-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--electric-light-color);
+      font-weight: bold;
+    }
+
+    strong {
+      color: var(--electric-light-color);
+    }
+
+    .banner-container:hover .impact-list li::before,
+    .banner-container:hover strong {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <svg class="svg-container">
+    <defs>
+      <filter id="turbulent-displace" colorInterpolationFilters="sRGB" x="-100%" y="-100%" width="300%" height="300%">
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="4" result="noise1" seed="1">
+            <animate attributeName="seed" from="1" to="100" dur="10s" repeatCount="indefinite" />
+        </feTurbulence>
+        <feOffset in="noise1" dx="0" dy="0" result="offsetNoise1">
+          <animate attributeName="dy" values="700; 0" dur="4s" repeatCount="indefinite" />
+        </feOffset>
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="4" result="noise2" seed="2">
+              <animate attributeName="seed" from="100" to="1" dur="10s" repeatCount="indefinite" />
+        </feTurbulence>
+        <feOffset in="noise2" dx="0" dy="0" result="offsetNoise2">
+          <animate attributeName="dy" values="0; -700" dur="4s" repeatCount="indefinite" />
+        </feOffset>
+        <feComposite in="offsetNoise1" in2="offsetNoise2" result="combinedNoise" />
+        <feDisplacementMap in="SourceGraphic" in2="combinedNoise" scale="35" xChannelSelector="R" yChannelSelector="B" />
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="scene">
+    <div class="banner-container">
+      <div class="background-glow"></div>
+      <div class="glow-layer glow-1"></div>
+      <div class="glow-layer glow-2"></div>
+      <div class="electric-border-layer"></div>
+
+      <div class="content-wrapper">
+        <ul class="impact-list">
+          <li>Sleep deprivation causes immediate <strong>loss of focus and energy</strong> impacting daily performance.</li>
+          <br>
+          <li>As shown in <strong>Figure 2</strong>, over <strong>65% of students</strong> feel neutral to very tired during their first two lessons.</li>
+          <br>
+          <li>Sleep deprivation disrupts the body's natural <strong>refresh and reset</strong> cycle.</li>
+          <br>
+          <li>Significant reduction in a student's ability to <strong>remain alert</strong> for the academic day ahead.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

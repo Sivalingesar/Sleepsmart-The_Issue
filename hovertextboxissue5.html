@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sleepsmart Advanced Electric Banner</title>
+  <style>
+    :root {
+      --electric-border-color: #02A2F8;
+      --electric-light-color: oklch(from var(--electric-border-color) l c h);
+      --gradient-color: oklch(from var(--electric-border-color) 0.3 calc(c / 2) h / 0.4);
+      --color-neutral-900: oklch(0.185 0 0);
+    }
+
+    body {
+      font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
+      background-color: transparent;
+      color: white;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .svg-container { position: absolute; width: 0; height: 0; }
+
+    .scene {
+      position: relative;
+      padding: 100px;
+    }
+
+    .banner-container {
+      position: relative;
+      width: 1200px; /* Adjusted width for paragraph readability */
+      min-height: 40px;
+      border-radius: 24px;
+      background: linear-gradient(-30deg, var(--gradient-color), transparent, var(--gradient-color)),
+                  linear-gradient(to bottom, var(--color-neutral-900), var(--color-neutral-900));
+      cursor: pointer;
+      transition: background 0.4s ease, transform 0.3s ease;
+      z-index: 2;
+    }
+
+    .electric-border-layer {
+      position: absolute;
+      inset: 0;
+      border: 2px solid var(--electric-border-color);
+      border-radius: 24px;
+      pointer-events: none;
+      filter: url(#turbulent-displace); 
+      z-index: 5;
+    }
+
+    .glow-layer {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      pointer-events: none;
+    }
+    .glow-1 { border: 2px solid var(--electric-border-color); filter: blur(2px); z-index: 2; opacity: 0.8; }
+    .glow-2 { border: 2px solid var(--electric-light-color); filter: blur(6px); z-index: 3; opacity: 0.5; }
+
+    .background-glow {
+      position: absolute;
+      inset: -10px;
+      border-radius: 30px;
+      filter: blur(32px);
+      opacity: 0.2;
+      z-index: -1;
+      background: radial-gradient(circle, var(--electric-light-color), transparent 70%);
+      transition: opacity 0.4s ease;
+    }
+
+    .banner-container:hover {
+      background: var(--electric-border-color);
+      transform: scale(1.01);
+    }
+
+    .banner-container:hover .background-glow { opacity: 0.6; }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 10;
+      padding: 40px 60px;
+      text-align: center;
+    }
+
+    .description {
+      font-size: 24px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.95);
+      transition: color 0.3s ease;
+    }
+
+    strong {
+      color: var(--electric-light-color);
+      transition: color 0.3s ease;
+    }
+
+    .banner-container:hover .description, 
+    .banner-container:hover strong {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <svg class="svg-container">
+    <defs>
+      <filter id="turbulent-displace" colorInterpolationFilters="sRGB" x="-100%" y="-100%" width="300%" height="300%">
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="4" result="noise1" seed="1">
+            <animate attributeName="seed" from="1" to="100" dur="10s" repeatCount="indefinite" />
+        </feTurbulence>
+        <feOffset in="noise1" dx="0" dy="0" result="offsetNoise1">
+          <animate attributeName="dy" values="700; 0" dur="4s" repeatCount="indefinite" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="4" result="noise2" seed="2">
+             <animate attributeName="seed" from="100" to="1" dur="10s" repeatCount="indefinite" />
+        </feTurbulence>
+        <feOffset in="noise2" dx="0" dy="0" result="offsetNoise2">
+          <animate attributeName="dy" values="0; -700" dur="4s" repeatCount="indefinite" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="4" result="noise3" seed="3" />
+        <feOffset in="noise3" dx="0" dy="0" result="offsetNoise3">
+          <animate attributeName="dx" values="1000; 0" dur="5s" repeatCount="indefinite" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="4" result="noise4" seed="4" />
+        <feOffset in="noise4" dx="0" dy="0" result="offsetNoise4">
+          <animate attributeName="dx" values="0; -1000" dur="5s" repeatCount="indefinite" />
+        </feOffset>
+
+        <feComposite in="offsetNoise1" in2="offsetNoise2" result="part1" />
+        <feComposite in="offsetNoise3" in2="offsetNoise4" result="part2" />
+        <feBlend in="part1" in2="part2" mode="color-dodge" result="combinedNoise" />
+
+        <feDisplacementMap in="SourceGraphic" in2="combinedNoise" scale="35" xChannelSelector="R" yChannelSelector="B" />
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="scene">
+    <div class="banner-container">
+      <div class="background-glow"></div>
+      <div class="glow-layer glow-1"></div>
+      <div class="glow-layer glow-2"></div>
+      <div class="electric-border-layer"></div>
+
+      <div class="content-wrapper">
+        <span class="description">
+          High schoolers make up one of the largest groups of public transport users, and it is imperative that they stay alert in areas such as bus stops and train stations. Lack of sleep can make room for accidents that could have been avoided, as highlighted by <strong>Harvard Medical School</strong>.
+        </span>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

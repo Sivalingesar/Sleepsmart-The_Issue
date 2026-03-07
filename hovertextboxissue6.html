@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sleepsmart | Safety Insight</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        display: grid;
+        place-content: center;
+        min-height: 100vh;
+        background: transparent; 
+        font-family: 'Open Sans', sans-serif;
+        overflow-x: hidden;
+        padding: 40px;
+    }
+
+    .quote-box {
+        position: relative;
+        width: 830px; 
+        min-height: 12px;
+        padding: 30px;
+        background: rgba(30, 41, 59, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid #02A2F8; /* Border starts colored to match style */
+        border-radius: 12px;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
+        
+        /* Removed all blur and opacity transitions */
+        filter: none;
+        opacity: 1;
+        
+        /* Red Alert Accent */
+        --accent: #02A2F8;
+    }
+
+    .quote-box::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 6px;
+        background: var(--accent);
+        box-shadow: 0 0 15px var(--accent);
+    }
+
+    .icon-box {
+        min-width: 50px;
+        height: 50px;
+        background: #0f172a;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-family: 'Lilita One', cursive;
+        font-size: 24px;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .content h3 {
+        font-family: 'Lilita One', cursive;
+        color: var(--accent);
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 1rem;
+    }
+
+    .content p {
+        color: #f1f5f9;
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    strong { 
+        color: white; 
+        font-weight: 600; 
+    }
+
+    /* Mobile handling */
+    @media (max-width: 600px) {
+        .quote-box { width: 90vw; }
+    }
+  </style>
+</head>
+<body>
+
+    <div class="quote-box">
+      <div class="icon-box">!</div>
+      <div class="content">
+        <p>
+          “<strong>Sleep deprivation</strong> also leaves you prone to dozing off and losing your concentration - two potentially dangerous phenomena that play a role in thousands of transportation accidents each year…”
+        </p>
+        <br>
+        <h3> - Harvard Medical School</h3>
+      </div>
+    </div>
+
+</body>
+</html>
